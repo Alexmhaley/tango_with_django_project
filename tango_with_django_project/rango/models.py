@@ -1,21 +1,25 @@
 from django.db import models
-
+from django.template.defaultfilters import slugify
 
 class Category(models.Model):
     name = models.CharField(max_length=128, unique=True)
-    #views = models.IntegerField(max_length=128, unique = True)
-    #views = 0
-    #likes = models.IntegerField(max_length=128, unique = True)
-    #likes = 0
-    
-    def __unicode__(self):
-        return self.name
+    views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
+    slug = models.SlugField(unique=True)
 
-   # def __unicode__(self):
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Category, self).save(*args, **kwargs)
+
+    def __unicode__(self):
+            return self.name
+    
+    #def __unicode__(self):
     #    return self.views
 
     #def __unicode__(self):
     #    return self.likes
+
 
 
 class Page(models.Model):
@@ -23,7 +27,9 @@ class Page(models.Model):
     title = models.CharField(max_length=128)
     url = models.URLField()
     views = models.IntegerField(default=0)
-    likes = models.IntegerField(default = 0)
+    likes = models.IntegerField(default=0)
 
     def __unicode__(self):
         return self.title
+
+
