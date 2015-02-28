@@ -8,6 +8,9 @@ from rango.models import Page
 
 from rango.forms import CategoryForm
 
+from rango.forms import PageForm
+
+
 def index(request):
     # Query the database for a list of ALL categories currently stored.
     # Order the categories by no. likes in descending order.
@@ -16,9 +19,20 @@ def index(request):
     category_list = Category.objects.order_by('-likes')[:5]
     context_dict = {'categories': category_list}
 
+    page_list = Page.objects.order_by('-views')[:5]
+    context_dict['pages'] = page_list
+    
+    
     # Render the response and send it back!
     return render(request, 'rango/index.html', context_dict)
 
+#def index(request):
+#    topsites = Page.objects.order_by('-views')[:5]
+#    topsites_dict = {'pages': topsites}#
+
+ #   render(request, 'rango/index.html', topsites_dict)
+
+    
 def about(request):
     
     context_dict = {'boldmessage': "I am bold font from the context"}
@@ -35,6 +49,8 @@ def category(request, category_name_slug):
         # So the .get() method returns one model instance or raises an exception.
         category = Category.objects.get(slug=category_name_slug)
         context_dict['category_name'] = category.name
+        context_dict['category_name_slug'] = category_name_slug
+
 
         # Retrieve all of the associated pages.
         # Note that filter returns >= 1 model instance.
@@ -52,8 +68,6 @@ def category(request, category_name_slug):
 
     # Go render the response and return it to the client.
     return render(request, 'rango/category.html', context_dict)
-
-
 
 def add_category(request):
     # A HTTP POST?
@@ -78,3 +92,30 @@ def add_category(request):
     # Bad form (or form details), no form supplied...
     # Render the form with error messages (if any).
     return render(request, 'rango/add_category.html', {'form': form})
+
+def add_page(request, category_name_slug):
+
+    try:
+        cat = Category.objects.get(slug=category_name_slug)
+    except Category.DoesNotExist:
+                cat = None
+
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+        if form.is_valid():
+            if cat:
+                page = form.save(commit=False)
+                page.category = cat
+                page.views = 0
+                page.save()
+                # probably better to use a redirect here.
+                return category(request, category_name_slug)
+        else:
+            print form.errors
+    else:
+        form = PageForm()
+
+    # made the change here
+    context_dict = {'form':form, 'category': cat, 'category_name_slug': category_name_slug}
+
+    return render(request, 'rango/add_page.html', context_dict)

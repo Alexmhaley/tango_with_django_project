@@ -17,17 +17,26 @@
             <strong>There are no categories present.</strong>
         {% endif %}
 		
-		{% if Page %}
-			<ul>
-				{% for page in pages %}
-				<li><a href="/rango/Page/{{ Page.slug }}">{{ Page.name }}</a></li>
-				{% endfor %}
-            </ul>
+		    </div>
+    <!--/span-->
+    <div class="span6">
+        <h2>Top Five Pages</h2>
+        {% if pages %}
+        <ul>
+            {% for page in pages %}
+            <li><a href="{{ page.url}}">{{ page.title }}</a> - {{ page.category}} ({{ page.views }} view(s))</li>
+            {% endfor %}
+        </ul>
         {% else %}
-            <strong>There are no pages present.</strong>
+        <strong>No pages at present.</strong>
         {% endif %}
-		
+
+    </div>
+    <!--/span-->
+</div><!--/row-->
+
+
+
         <a href="/rango/about/">About</a>
-		<a href="/rango/add_category/">Add a New Category</a><br />
     </body>
 </html>
