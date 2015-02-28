@@ -217,12 +217,19 @@ def user_login(request):
                 return HttpResponse("Your Rango account is disabled.")
         else:
             # Bad login details were provided. So we can't log the user in.
-            print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            accName = authenticate(username=username)
+            if accName:
+                print "I'm afraid your password was wrong"
+                return HttpResponse("I'm afraid your password was wrong")
+            else:
+                print "I'm afraid your username doesn't exist"
+                return HttpResponse("I'm afraid your username doesn't exist")
 
     # The request is not a HTTP POST, so display the login form.
     # This scenario would most likely be a HTTP GET.
     else:
+        
+            
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
         return render(request, 'rango/login.html', {})
