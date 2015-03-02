@@ -63,7 +63,18 @@ def populate():
 	likes = 16,
 	views = 32)
         
-        
+    me_cat = add_cat("me")
+
+    add_page(cat = me_cat,
+             title = "Github",
+             url = "https://github.com/Alexmhaley/tango_with_django_project.git",
+             likes = 0,
+             views = 0)
+    add_page(cat = me_cat,
+             title = "PythonAnywhere",
+             url = "https://www.pythonanywhere.com/user/AlexmHaley/",
+             likes = 0,
+             views = 0)
     # Print out what we have added to the user.
     for c in Category.objects.all():
         for p in Page.objects.filter(category=c):
