@@ -39,6 +39,7 @@
                         <li><a href="{% url 'restricted' %}">Restricted Page</a></li>
                         <li><a href="{% url 'auth_logout' %}?next=/rango/">Logout</a></li>
                         <li><a href="{% url 'add_category' %}">Add a New Category</a></li>
+						<li><a href="{% url 'search' %}">Search</a></li>
                     {% else %}
                         <li><a href="{% url 'registration_register' %}">Register Here</a></li>
                         <li><a href="{% url 'auth_login' %}">Login</a></li>
@@ -49,11 +50,13 @@
         </div>
       </div>
     </div>
-
+	{% load rango_extras %}
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-                {% block side_block %}{% endblock %}
+                {% block side_block %}
+				{% get_category_list category %}
+				{% endblock %}
 
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
@@ -63,7 +66,11 @@
         </div>
       </div>
     </div>
-
+	
+	
+	
+	
+	
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
