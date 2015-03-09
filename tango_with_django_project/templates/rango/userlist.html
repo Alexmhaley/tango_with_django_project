@@ -1,0 +1,20 @@
+{% extends 'rango/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}User List{% endblock %}
+
+{% block body_block %}
+    <div class="page-header"><h1>User List</h1></div>
+
+        {% if userlist %}
+            <ul>
+            {% for u in userlist %}
+            <li><a href="{% url 'profile' u.user.username %}">{{u.user.username}}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <strong>No users</strong>
+        {% endif %}
+
+{% endblock %}

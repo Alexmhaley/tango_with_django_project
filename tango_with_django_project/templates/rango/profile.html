@@ -1,0 +1,22 @@
+{% extends 'rango/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}About{% endblock %}
+
+{% block body_block %}
+    {% if userprofile %}
+        <div class="page-header">
+            <h1>{{userprofile.user.username}} ({{userprofile.user.email}})</h1>
+        </div>
+        <div><img src="/media/{{ userprofile.picture }}" alt="user picture" /></div>
+        <div><a href="{{ userprofile.website }}">{{ userprofile.website }}</a></div>
+        <div>
+        {% if user == userprofile.user %}
+            <a href="{% url 'edit_profile' %}">edit your profile</a>
+        {% endif %}
+        </div>
+    {% else %}
+    No Profile associated with user
+    {% endif %}
+{% endblock %}

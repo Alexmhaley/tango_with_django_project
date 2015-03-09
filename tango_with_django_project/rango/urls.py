@@ -13,6 +13,14 @@ urlpatterns = patterns('',
     url(r'^restricted/', views.restricted, name='restricted'),
 #    url(r'^logout/$', views.user_logout, name='logout'),
 
-    url(r'^search/',views.search,name = 'search'),
+   # url(r'^search/',views.search,name = 'search'),
 
+    url(r'^goto/$', views.track_url, name='goto'),
+    url(r'^add_profile/$', views.register_profile, name='register_profile'),
+    url(r'^profile/$', views.profile, name='your_profile'),
+    url(r'^profile/edit/$', views.edit_profile, name='edit_profile'),
+    url(r'^profile/show/(?P<username>[\w\-]+)', views.profile, name='profile'),
+    url(r'^userlist/$', views.userlist, name='userlist'),
+    url(r'^like_category/$', views.like_category, name='like_category'),
+    url(r'^suggest_category/$', views.suggest_category, name='suggest_category'),
     )
